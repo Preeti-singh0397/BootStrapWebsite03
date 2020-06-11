@@ -104,9 +104,10 @@ class CantactData extends Component {
     const order = {
       ingredients: this.props.ing,
       price: this.props.price,
-      orderData: formData
+      orderData: formData,
+      userId: this.props.userId
     };
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.token);
   };
   checkValidity(value, rules) {
     let isValid = true;
@@ -181,13 +182,16 @@ const mapStateToProps = state => {
   return {
     ing: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
-    loading: state.order.loading
+    loading: state.order.loading,
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchProps = dispatch => {
   return {
-    onOrderBurger: orderData => dispatch(orderAction.purchaseBurger(orderData))
+    onOrderBurger: (orderData, token) =>
+      dispatch(orderAction.purchaseBurger(orderData, token))
   };
 };
 
